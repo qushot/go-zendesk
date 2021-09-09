@@ -14,6 +14,7 @@ type Organization struct {
 	URL                string                 `json:"url,omitempty"`
 	Name               string                 `json:"name"`
 	DomainNames        []string               `json:"domain_names"`
+	ExternalID         string                 `json:"external_id"`
 	GroupID            int64                  `json:"group_id"`
 	SharedTickets      bool                   `json:"shared_tickets"`
 	SharedComments     bool                   `json:"shared_comments"`
