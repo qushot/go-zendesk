@@ -53,3 +53,25 @@ func (z *Client) DeleteOrganizationMembership(ctx context.Context, orgMemID int6
 
 	return nil
 }
+
+// CreateOrganizationMembership はメンバーシップ(組織-ユーザ紐付け情報)を1件作成します
+// ref: https://developer.zendesk.com/api-reference/ticketing/organizations/organization_memberships/#create-membership
+func (z *Client) CreateOrganizationMembership(ctx context.Context, userID, organizationID int64) (OrganizationMembership, error) {
+	var data, result struct {
+		OrganizationMembership OrganizationMembership `json:"organization_membership"`
+	}
+	data.OrganizationMembership.UserID = userID
+	data.OrganizationMembership.OrganizationID = organizationID
+
+	body, err := z.post(ctx, "/organization_memberships.json", data)
+	if err != nil {
+		return OrganizationMembership{}, err
+	}
+
+	err = json.Unmarshal(body, &result)
+	if err != nil {
+		return OrganizationMembership{}, err
+	}
+
+	return result.OrganizationMembership, nil
+}
